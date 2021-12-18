@@ -1,0 +1,22 @@
+.result-row{
+    width:100%;
+    display:inline-flex;
+    justify-content: space-between;
+}
+
+.state{
+    display:flex;
+    align-items: flex-end;
+}
+
+.code{
+    display:flex;
+    align-items: center;
+    width:10%;
+}
+
+.margin-25{
+    border-bottom: 1px solid black;
+    
+    padding: .25rem;
+}
