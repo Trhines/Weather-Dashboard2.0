@@ -1,0 +1,177 @@
+:root{
+    --offwhite: #f1fdff;
+    --bgColor: hsla(0, 0%, 100%, 0.2);
+    --shadow: 0px 2px 2px hsl(0deg 0% 0% / 13%)
+}
+
+.bg{
+    background-color: var(--bgColor); 
+}
+
+.dashHeader{
+    width:100%;
+    display:inline-flex;
+    justify-content: space-between;
+    margin-top: .5rem;;
+    margin-bottom: .5rem;
+}
+
+.txtContainer{
+    display: inline-flex;
+    justify-content: left;
+    flex-wrap: wrap;
+}
+
+.headtxt{
+    font-size: 1.25rem;
+    padding-right: 1.25rem;
+}
+
+.mainBody{
+    display: inline-flex;
+    width: 100%;
+    height: 150%;
+}
+
+.bodyContainer{
+    background-color: inherit;
+    display: block;
+    margin: auto;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+}
+
+.leftBody{
+    order: 1;
+    width: 50%;
+    margin: auto;
+}
+
+.rightBody{
+    order: 2;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.temp{
+    font-size: 5rem;
+}
+
+.inline{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+}
+
+.leftContainer{
+    height: 100%;
+}
+
+.verticalMarginAuto{
+    padding:.75rem;
+}
+
+.justifyR{
+    display: flex;
+    justify-content: right;
+}
+
+.padL{
+    width: 100%;
+    padding-left: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.padR{
+    padding-right: 1rem;
+    padding-top: .6rem;
+    padding-bottom: .5rem;
+}
+
+.hourlyList{
+    list-style-type: none;
+    display: flex;
+    overflow-x: auto;
+}
+
+.hourlyItem{
+    padding: .5rem;
+}
+
+.hourlyDiv{
+    width: 5rem;
+    text-align: center;
+}
+
+.forcast{
+    margin-top: .8rem;
+    background-color: var(--bgColor) !important;
+    box-shadow: var(--shadow);
+    display: flex;
+}
+
+.day{
+    justify-content: center;
+    text-align: center;
+    padding: .75rem;
+}
+
+.icon{
+    display: flex;
+    justify-content: center;
+}
+
+.alertContainer{
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left:auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.alert{
+    border-radius: 0;
+    margin-left:auto;
+    margin-right: auto;
+}
+
+.alert-danger{
+    background-color: white;
+    border-color: none;
+    box-shadow: var(--shadow)
+
+}
+
+.black{
+    color: black;
+}
+
+.justify-content-end{
+    justify-content: space-between!important;
+}
+
+@media only screen and (max-width: 768px){
+    .mainBody{
+        display: block;
+    }
+    .rightBody{
+      width: auto;
+    }
+    .leftBody{
+      width: auto;;
+    }
+    .leftContainer{
+        display:inline-flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .icon{
+        display: block;
+    }
+  }

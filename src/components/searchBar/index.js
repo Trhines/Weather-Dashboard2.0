@@ -1,4 +1,4 @@
-import { DBcontext } from '../../App'
+import { DBcontext } from '../backgroundContainer'
 import './index.css'
 import { callApi } from '../../utils/api/weatherApi.js'
 
@@ -20,6 +20,7 @@ const SearchBar = (props) => {
 
     const submitSearch = async () => {
         const data = await callApi(location, key)
+        console.log(data)
         props.addResult(data)
     }
 

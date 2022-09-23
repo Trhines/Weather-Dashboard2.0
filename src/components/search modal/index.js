@@ -43,7 +43,7 @@ const SearchModal = ({show, setmodal, update}) => {
 
       <Modal.Body>
         <ul>
-          {results.map((result) => <Results key={result.name} name={result.name} state={result.sys.country} temp={result.main.temp} lat={result.coord.lat} lon={result.coord.lon} update={update}/>)}
+          {results.map((result) => <Results key={result.name} name={result.name} country={result.sys.country} temp={result.main.temp} lat={result.coord.lat} lon={result.coord.lon} update={update}/>)}
         </ul>
       </Modal.Body>
 

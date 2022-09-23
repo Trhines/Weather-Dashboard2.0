@@ -1,0 +1,41 @@
+*{
+    color: white;
+    text-shadow: 1px 1px 1px hsl(0deg 0% 0% / 13%)
+}
+
+.mainContent{
+    scrollbar-color: var(--offwhite) var(--bgColor);
+    width: 100%;
+    box-shadow: 0px 5px 5px hsl(0deg 0% 0% / 13%);
+    padding-left: .5rem;
+    padding-right: .5rem;
+    padding-bottom: .5rem;
+}
+
+.searchTab{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.tabs {
+    border: none;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.title{
+    white-space: nowrap;
+}
+
+.nav-link{ 
+    color: inherit !important;
+    margin: 0px !important;
+    border: none !important;
+}
+
+.nav-link.active{
+    border: 0px !important;
+    background-color: hsla(0, 0%, 100%, 0.1) !important;
+    box-shadow: 0px -2px 2px hsl(0deg 0% 0% / 13%);
+    border-radius: 0px !important;
+}
