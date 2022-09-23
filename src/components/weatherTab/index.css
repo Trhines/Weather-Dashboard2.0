@@ -171,7 +171,7 @@
         flex-wrap: wrap;
         justify-content: center;
     }
-    .icon{
-        display: block;
+    .col{
+        flex: auto;
     }
   }

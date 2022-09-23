@@ -24,7 +24,7 @@ const Results = (props) => {
             <p className="state">{props.name}</p>
             <p>{props.country}</p>
             <p>{props.temp}</p>
-            <Button onClick={save}>Add</Button>
+            <Button className="button" onClick={save}>Add</Button>
         </div>
     )
 }

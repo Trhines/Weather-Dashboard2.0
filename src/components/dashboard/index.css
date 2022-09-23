@@ -33,6 +33,13 @@
     border: none !important;
 }
 
+.button{
+    color: white;
+    border: none;
+    border-radius: 0px;
+    background-color: var(--bgColor);
+}
+
 .nav-link.active{
     border: 0px !important;
     background-color: hsla(0, 0%, 100%, 0.1) !important;

@@ -48,7 +48,7 @@ const SearchBar = (props) => {
                         </Form.Select>
                     </Form.Group>
 
-                    <Button variant="primary margin margin-top realative-top" onClick={submitSearch}>
+                    <Button variant="primary margin margin-top realative-top" className="button" onClick={submitSearch}>
                         Search
                     </Button>
                 </div>
