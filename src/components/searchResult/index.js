@@ -13,6 +13,7 @@ const Results = (props) => {
         if(!data){
             let response = await saveLocationData(db, props.name, props.lat, props.lon)
             if(response.success){
+                console.log(props.name)
                 props.update()
             }
             props.clear()

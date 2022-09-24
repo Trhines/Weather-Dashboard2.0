@@ -32,6 +32,12 @@ const Dashboard = (props) => {
     setK(t)
   }
 
+  const changeTab = async (newTab) => {
+    const newTabKey = locationData[newTab].city
+    setK(newTabKey)
+    return newTabKey
+  }
+
   const deleteTab = async (index, city) => {
     let newTabIndex
     if (index - 1 < 0) {
@@ -40,10 +46,10 @@ const Dashboard = (props) => {
       newTabIndex = index - 1
     }
     const newTabKey = locationData[newTabIndex].city
+    setK(newTabKey)
     deleteLocationData(db, city)
     deleteWeatherData(db, city)
     props.setActiveTab(newTabKey)
-    setK(newTabKey)
     locationData.splice(index, 1)
   }
 
@@ -63,11 +69,13 @@ const Dashboard = (props) => {
   //updateNeeded used to prevent infinite loop, set to true to pull new location data for dashboard
   //all other weather data handled within tabs to decrease load times
   useEffect(() => {
-    console.log("use eff")
     const updateLocationData = async () => {
       //pulls saved names and coordinates
       let locationData = await getAllLocationData(db)
-      setLocationData(locationData)
+      await setLocationData(locationData)
+      setK(locationData[locationData.length-1].city)
+      props.setActiveTab(locationData[locationData.length-1].city)
+      
     }
 
     if (updateNeeded) {
@@ -110,7 +118,7 @@ const Dashboard = (props) => {
           <div className="mainContent bg">
             <SearchBar results={results} addResult={addResult} />
             <ul>
-              {results.map((result) => <Results key={result.name} name={result.name} country={result.sys.country} temp={result.main.temp} lat={result.coord.lat} lon={result.coord.lon} update={updateData} clear={clearResults}/>)}
+              {results.map((result) => <Results key={result.name} name={result.name} country={result.sys.country} temp={result.main.temp} lat={result.coord.lat} lon={result.coord.lon} update={updateData} clear={clearResults} />)}
             </ul>
           </div>
         </Container>

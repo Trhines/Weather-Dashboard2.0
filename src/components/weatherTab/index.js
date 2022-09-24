@@ -21,7 +21,7 @@ const WeatherTab = ({ city, lat, lon, logState, firstTab, setBgColor, setFirstCo
     const { db, key } = React.useContext(DBcontext)
 
     const [currentData, setcurrentData] = useState(null)
-    const [tabBgColor, changeTabColor] = useState({ hue: 200, sat: 100, light: 80 })
+    //const [tabBgColor, changeTabColor] = useState({ hue: 200, sat: 100, light: 80 })
     const [show, setShow] = useState(false)
 
     // const setTabColor = (h, s, l) => {

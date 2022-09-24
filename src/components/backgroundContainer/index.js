@@ -14,7 +14,7 @@ const BackgroundContainer = (props) => {
 
     const [activeColor, changeActiveColor] = useState({ hue: 200, sat: 100, light: 80 })
     const [allColors, setColors] = useState([])
-    const [activeTab, setActiveTab] = useState()
+    //const [activeTab, setActiveTab] = useState()
 
     const setActiveColor = (h, s, l) => {
         changeActiveColor({ hue: h, sat: s, light: l })
@@ -29,12 +29,8 @@ const BackgroundContainer = (props) => {
     }
 
     const activateTab = (key) => {
-        setActiveTab(key)
-        console.log(allColors)
         for(let i=0; i<allColors.length; i++){
-            //console.log(allColors[i].city)
             if(allColors[i].city === key){
-                console.log(allColors[i].hue, allColors[i].sat, allColors[i].light)
                 setActiveColor(allColors[i].hue, allColors[i].sat, allColors[i].light)
             }
         }
@@ -42,11 +38,9 @@ const BackgroundContainer = (props) => {
 
 
     useEffect(() => {
-    //  let html = document.getElementById("html")
-    //  console.log(html)
-
-        
-    },[activeTab])
+        console.log(document.getElementById("html"))
+        document.getElementById("html").style.background = `hsla(200, 100%, 80%, 1.0)`
+    },[])
 
     return (
         <div className='bgcont' style={{ backgroundColor: `hsla(${activeColor.hue}, ${activeColor.sat}%, ${activeColor.light}%, 1.0)` }}>
