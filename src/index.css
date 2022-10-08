@@ -1,7 +1,12 @@
 @import-normalize;
 
+*{
+  --bgColor: #dcdcdc;
+}
+
 html{
   overflow-y: scroll;
+  background-color: var(--bgColor);
 }
 
 body {

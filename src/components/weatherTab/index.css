@@ -1,11 +1,5 @@
-:root{
-    --offwhite: #f1fdff;
-    --bgColor: hsla(0, 0%, 100%, 0.2);
-    --shadow: 0px 2px 2px hsl(0deg 0% 0% / 13%)
-}
-
 .bg{
-    background-color: var(--bgColor); 
+    background-color: var(--panelColor); 
 }
 
 .dashHeader{
@@ -30,7 +24,7 @@
 .mainBody{
     display: inline-flex;
     width: 100%;
-    height: 150%;
+    max-height: 320px;
 }
 
 .bodyContainer{
@@ -43,27 +37,59 @@
 
 .leftBody{
     order: 1;
-    width: 50%;
+    width: 30%;
     margin: auto;
 }
 
 .rightBody{
     order: 2;
-    width: 50%;
+    width: 70%;
+    padding-top: 4rem;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.diagram{
+    padding-right: 20px;
+    max-height:320px;
+}
+
+.circle{
+    fill: var(--panelColor);
+}
+
+.sun{
+    padding: 3px;
+    background: var(--panelColor);
+    color: #ffe000;
+    border: 2px solid var(--panelColor);
+    border-radius: 50%;
+}
+
+.moon{
+    padding: 3px;
+    background: black;
+    color: var(--panelColor);
+    border: 5px solid var(--panelColor);
+    border-radius: 50%;
 }
 
 .temp{
     font-size: 5rem;
+    position: relative;
+    bottom: 235px;
+    right: -110px;
 }
 
-.inline{
+.description{
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.5rem;
+    font-size: 2rem;
+    position: relative;
+    bottom: 220px;
+    left: 33px;
 }
 
 .leftContainer{
@@ -72,24 +98,6 @@
 
 .verticalMarginAuto{
     padding:.75rem;
-}
-
-.justifyR{
-    display: flex;
-    justify-content: right;
-}
-
-.padL{
-    width: 100%;
-    padding-left: 1rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-}
-
-.padR{
-    padding-right: 1rem;
-    padding-top: .6rem;
-    padding-bottom: .5rem;
 }
 
 .hourlyList{
@@ -107,11 +115,19 @@
     text-align: center;
 }
 
-.forcast{
-    margin-top: .8rem;
-    background-color: var(--bgColor) !important;
-    box-shadow: var(--shadow);
+.forcastHeader{
     display: flex;
+    margin-right: 1.5rem;
+    margin-left: 1.5rem;
+}
+
+.forcast{
+    background-color: var(--panelColor) !important;
+    display: flex;
+}
+
+.forcast.altbg{
+    background-color: #f0f0f0 !important;
 }
 
 .day{

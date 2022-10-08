@@ -24,3 +24,10 @@
     position: relative;
     top:1.5rem;
 }
+
+.button{
+    color: black;
+    border: none;
+    border-radius: 0px;
+    background-color: var(--panelColor);
+}

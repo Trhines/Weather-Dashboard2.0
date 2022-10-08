@@ -11,9 +11,7 @@ import { DBcontext } from '../backgroundContainer'
 import { useState, useEffect } from 'react'
 import React from 'react'
 import { getAllLocationData } from '../../utils/indexdb'
-// import { getWeatherData } from '../../utils/api/weatherApi'
-
-import SearchModal from "../search modal"
+// import { getWeatherData } from '../../utils/api/weatherApi'"
 import WeatherTab from '../weatherTab'
 
 import './index.css'
@@ -28,14 +26,7 @@ const Dashboard = (props) => {
   const [k, setK] = useState()
 
   const tabControl = async (t) => {
-    props.setActiveTab(t)
     setK(t)
-  }
-
-  const changeTab = async (newTab) => {
-    const newTabKey = locationData[newTab].city
-    setK(newTabKey)
-    return newTabKey
   }
 
   const deleteTab = async (index, city) => {
@@ -49,7 +40,6 @@ const Dashboard = (props) => {
     setK(newTabKey)
     deleteLocationData(db, city)
     deleteWeatherData(db, city)
-    props.setActiveTab(newTabKey)
     locationData.splice(index, 1)
   }
 
@@ -74,8 +64,6 @@ const Dashboard = (props) => {
       let locationData = await getAllLocationData(db)
       await setLocationData(locationData)
       setK(locationData[locationData.length-1].city)
-      props.setActiveTab(locationData[locationData.length-1].city)
-      
     }
 
     if (updateNeeded) {

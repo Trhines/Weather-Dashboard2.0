@@ -10,29 +10,23 @@ import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import { Trash } from 'react-bootstrap-icons'
 import './index.css'
-import getColor from '../../utils/interpolation/index'
+import getCoord from '../../utils/interpolation/index'
 
 
 
 
 
-const WeatherTab = ({ city, lat, lon, logState, firstTab, setBgColor, setFirstColor, addColor, deleteTab, index }) => {
+const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
 
     const { db, key } = React.useContext(DBcontext)
 
     const [currentData, setcurrentData] = useState(null)
-    //const [tabBgColor, changeTabColor] = useState({ hue: 200, sat: 100, light: 80 })
     const [show, setShow] = useState(false)
-
-    // const setTabColor = (h, s, l) => {
-    //     changeTabColor({ hue: h, sat: s, light: l })
-    // }
 
     const currentMilliseconds = Date.now()
     const currentSeconds = Math.floor(currentMilliseconds / 1000)
 
     const getDate = (unixTimeStamp) => {
-        // const milliseconds = unixTimeStamp * 1000
         const dateObject = new Date(unixTimeStamp * 1000)
         const month = dateObject.toLocaleString("en-US", { month: "numeric" })
         const day = dateObject.toLocaleString("en-US", { day: "numeric" })
@@ -63,15 +57,48 @@ const WeatherTab = ({ city, lat, lon, logState, firstTab, setBgColor, setFirstCo
         return temp.toString().split('.')[0] + '\u00b0' + 'F'
     }
 
+    const circle = (r) => {
+        const c = 2 * Math.PI * r
+        const arc = c / 2
+        let coord = getCoord(currentMilliseconds, currentData.weather.timezone, currentData.weather.current.sunrise, currentData.weather.daily[1].sunrise, currentData.weather.current.sunset, r)
+        let offset = { x: -161, y: 0 }
+        let symbol = <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-brightness-high-fill" viewBox="0 0 16 16" className="sun"
+            style={{ position: "relative", top: -Math.abs(coord.y + offset.y), right: coord.x + offset.x }}>
+            <path d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z" />
+        </svg>;
+        if (coord.symbol === "moon") {
+            offset = { x: -161, y: 0 }
+            symbol = <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-moon-fill" viewBox="0 0 16 16 " className="moon"
+                style={{ position: "relative", top: -Math.abs(coord.y + offset.y), right: coord.x + offset.x }}>
+                <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z" />
+            </svg>
+        }
+        return (
+            <div className="diagram">
+                {symbol}
+                <svg width="270" height="270" className="circle">
+                    <circle cx="135" cy="135" r={r}
+                        stroke="black"
+                        stroke-width="2px"
+                        stroke-dasharray={arc}
+                        stroke-dashoffset={arc} />
+                </svg>
+                <div className="temp">
+                    {formatTemp(currentData.weather.current.temp)}
+                </div>
+                <div className="description">
+                    <div >{currentData.weather.current.weather[0].description}</div>
+                    <img src={getImageUrl(currentData.weather.current.weather[0].icon)} ></img>
+                </div>
+            </div>
+        )
+    }
+
     let Weather = <div>loading</div>
 
     useEffect(() => {
         const ifFirstTab = async (unix, timeZone, rise, secondRise) => {
-            let { h, s, l } = getColor(unix, timeZone, rise, secondRise)
-            addColor({ city: city, hue: h, sat: s, light: l })
-            if (firstTab === "true") {
-                setFirstColor(h, s, l)
-            }
+            //let { h, s, l } = getColor(unix, timeZone, rise, secondRise)
         }
         //pulls fresh data from api and updates db and state
         const updateData = async (existingData) => {
@@ -122,30 +149,39 @@ const WeatherTab = ({ city, lat, lon, logState, firstTab, setBgColor, setFirstCo
 
         let hourlyData = currentData.weather.hourly.map((hour) => <li className="hourlyItem">
             <div className="hourlyDiv">{getTime(currentData.weather.timezone, hour.dt)}<br></br>{formatTemp(hour.temp)}</div></li>)
-        let dailyData = currentData.weather.daily.map((day) =>
-            <Row className="forcast">
-                <Col className="day">
-                    {getDate(day.dt)}
-                </Col>
-                <Col className="day">
-                    Low {formatTemp(day.temp.min)}
-                </Col>
-                <Col className="day">
-                    High {formatTemp(day.temp.max)}
-                </Col>
-                <Col md={2} className="icon">
-                    <img src={getImageUrl(day.weather[0].icon)}></img>
-                </Col>
-                <Col className="day">
-                    {day.weather[0].description}
-                </Col>
-            </Row>
-        )
+
+        let day = currentData.weather.daily
+        let dailyForcast = [];
+        for (let i = 0; i < day.length; i++) {
+            let css = "forcast"
+            if (i % 2 === 0) {
+                css = "forcast altbg"
+            }
+            let newDay =
+                <Row className={css}>
+                    <Col className="day">
+                        {getDate(day[i].dt)}
+                    </Col>
+                    <Col className="day">
+                        Low {formatTemp(day[i].temp.min)}
+                    </Col>
+                    <Col className="day">
+                        High {formatTemp(day[i].temp.max)}
+                    </Col>
+                    <Col md={2} className="icon">
+                        <img src={getImageUrl(day[i].weather[0].icon)}></img>
+                    </Col>
+                    <Col className="day">
+                        {day[i].weather[0].description}
+                    </Col>
+                </Row>;
+            dailyForcast = [...dailyForcast, newDay]
+        }
 
         Weather =
-            <div className="bgColors">
-
+            <div>
                 <div className="mainContent bg">
+                    <h1>Today</h1>
                     <div className="dashHeader">
                         <div className="txtContainer">
                             <div onClick={logState} className="headtxt">{currentData.city}</div>
@@ -157,15 +193,7 @@ const WeatherTab = ({ city, lat, lon, logState, firstTab, setBgColor, setFirstCo
                     <div>
                         <div className="mainBody">
                             <div className="rightBody">
-                                <div>
-                                    <div className="temp">
-                                        {formatTemp(currentData.weather.current.temp)}
-                                    </div>
-                                    <div className="inline">
-                                        <div className="padL justifyR">{currentData.weather.current.weather[0].description}</div>
-                                        <img className="padR" src={getImageUrl(currentData.weather.current.weather[0].icon)} ></img>
-                                    </div>
-                                </div>
+                                    {circle(130)}
                             </div>
                             <div className="leftBody">
                                 <div className="leftContainer">
@@ -173,6 +201,9 @@ const WeatherTab = ({ city, lat, lon, logState, firstTab, setBgColor, setFirstCo
                                     <div className="verticalMarginAuto">High: {formatTemp(currentData.weather.daily[0].temp.max)}</div>
                                     <div className="verticalMarginAuto">Wind speed: {currentData.weather.current.wind_speed}</div>
                                     <div className="verticalMarginAuto">Humidity: {currentData.weather.current.humidity}</div>
+                                </div>
+                                <div className="leftContainer">
+                                    <div className="verticalMarginAuto">Humidity: {currentData.weather.current.pressure}</div>
                                 </div>
                             </div>
                         </div>
@@ -183,7 +214,8 @@ const WeatherTab = ({ city, lat, lon, logState, firstTab, setBgColor, setFirstCo
                 </div>
                 <div>
                     <Container>
-                        {dailyData}
+                        <Row className="forcast"><h1>Forcast</h1></Row>
+                        {dailyForcast}
                     </Container>
                 </div>
             </div>

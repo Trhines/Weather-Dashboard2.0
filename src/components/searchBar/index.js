@@ -29,7 +29,7 @@ const SearchBar = (props) => {
             <Form>
                 <Form.Group className="margin" controlId="formBasicEmail">
                     <Form.Label>City</Form.Label>
-                    <Form.Control type="email" placeholder="City" name="city" value={location.city} onChange={handleLocationChange} />
+                    <Form.Control placeholder="City" name="city" value={location.city} onChange={handleLocationChange} />
                 </Form.Group>
                 <div className="inline-flex-center">
                     <Form.Group className="margin" controlId="formBasicPassword">

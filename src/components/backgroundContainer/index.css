@@ -1,4 +1,5 @@
 .bgcont {
     height: 100%;
     padding-top: 1.5rem;
+    background-color: var(--bgColor);
 }
