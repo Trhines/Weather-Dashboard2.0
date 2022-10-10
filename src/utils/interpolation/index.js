@@ -15,7 +15,8 @@ const lerp = (x, x1, x2, y1, y2) => {
 
 //runs everything
 const getColor = (t, timeZone, rise, secondRise, set, r) => {
-    let time = getLocalizedHours(t, timeZone)
+    //let time = getLocalizedHours(t, timeZone)
+    let time = 6
     const sunrise = getLocalizedHours(rise*1000, timeZone)
     const second_rise = getLocalizedHours(secondRise*1000, timeZone)
     const sunset = getLocalizedHours(set*1000, timeZone)

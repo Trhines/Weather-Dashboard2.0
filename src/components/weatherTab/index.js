@@ -146,9 +146,38 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
     }, [db, key, lat, lon, city])
 
     if (currentData) {
+        console.log(currentData.weather.hourly)
+        // let hourlyData = currentData.weather.hourly.map((hour) => <li className="hourlyItem">
+        //     <div className="hourlyDiv">{getTime(currentData.weather.timezone, hour.dt)}<br></br>{formatTemp(hour.temp)}</div></li>)
+        let hour = currentData.weather.hourly
+        let hourlyForcast = [];
+        //only showing 12 of 48 hours because I felt like it
+        for (let i = 0; i < 12; i++) {
+            let css = "forcast"
+            if (i % 2 === 0) {
+                css = "forcast altbg"
+            }
+            let newHour =
+                <Row className={css}>
+                    <Col className="day">
+                        {getTime(currentData.weather.timezone, hour[i].dt)}
+                    </Col>
+                    <Col className="day">
+                        Temp {formatTemp(hour[i].temp)}
+                    </Col>
+                    <Col md={2} className="icon">
+                        <img src={getImageUrl(hour[i].weather[0].icon)}></img>
+                    </Col>
+                    <Col className="day">
+                        {hour[i].weather[0].description}
+                    </Col>
+                </Row>;
+            hourlyForcast = [...hourlyForcast, newHour]
+        }
 
-        let hourlyData = currentData.weather.hourly.map((hour) => <li className="hourlyItem">
-            <div className="hourlyDiv">{getTime(currentData.weather.timezone, hour.dt)}<br></br>{formatTemp(hour.temp)}</div></li>)
+
+
+
 
         let day = currentData.weather.daily
         let dailyForcast = [];
@@ -208,15 +237,18 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
                             </div>
                         </div>
                     </div>
-                    <div className='hourlyList'>
-                        {hourlyData}
+                </div>
+                <div>
+                    <div className="mainContent bg">
+                        <Row className="forcast"><h1>12 Hour Forcast</h1></Row>
+                        {hourlyForcast}
                     </div>
                 </div>
                 <div>
-                    <Container>
-                        <Row className="forcast"><h1>Forcast</h1></Row>
+                    <div className="mainContent bg">
+                        <Row className="forcast"><h1>8 Day Forcast</h1></Row>
                         {dailyForcast}
-                    </Container>
+                    </div>
                 </div>
             </div>
     }
