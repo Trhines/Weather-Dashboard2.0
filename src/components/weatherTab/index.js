@@ -62,13 +62,13 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
         const arc = c / 2
         let coord = getCoord(currentMilliseconds, currentData.weather.timezone, currentData.weather.current.sunrise, currentData.weather.daily[1].sunrise, currentData.weather.current.sunset, r)
         let offset = { x: -161, y: 0 }
-        let symbol = <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-brightness-high-fill" viewBox="0 0 16 16" className="sun"
+        let symbol = <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" className="bi bi-brightness-high-fill sun" viewBox="0 0 16 16"
             style={{ position: "relative", top: -Math.abs(coord.y + offset.y), right: coord.x + offset.x }}>
             <path d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z" />
         </svg>;
         if (coord.symbol === "moon") {
             offset = { x: -161, y: 0 }
-            symbol = <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-moon-fill" viewBox="0 0 16 16 " className="moon"
+            symbol = <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" className="bi bi-moon-fill moon" viewBox="0 0 16 16 "
                 style={{ position: "relative", top: -Math.abs(coord.y + offset.y), right: coord.x + offset.x }}>
                 <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z" />
             </svg>
@@ -79,9 +79,9 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
                 <svg width="270" height="270" className="circle">
                     <circle cx="135" cy="135" r={r}
                         stroke="black"
-                        stroke-width="2px"
-                        stroke-dasharray={arc}
-                        stroke-dashoffset={arc} />
+                        strokeWidth="2px"
+                        strokeDasharray={arc}
+                        strokeDashoffset={arc} />
                 </svg>
                 <div className="temp">
                     {formatTemp(currentData.weather.current.temp)}
@@ -97,6 +97,7 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
     let Weather = <div>loading</div>
 
     useEffect(() => {
+        console.log(currentData)
         const ifFirstTab = async (unix, timeZone, rise, secondRise) => {
             //let { h, s, l } = getColor(unix, timeZone, rise, secondRise)
         }
@@ -146,7 +147,6 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
     }, [db, key, lat, lon, city])
 
     if (currentData) {
-        console.log(currentData.weather.hourly)
         // let hourlyData = currentData.weather.hourly.map((hour) => <li className="hourlyItem">
         //     <div className="hourlyDiv">{getTime(currentData.weather.timezone, hour.dt)}<br></br>{formatTemp(hour.temp)}</div></li>)
         let hour = currentData.weather.hourly
@@ -230,9 +230,8 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
                                     <div className="verticalMarginAuto">High: {formatTemp(currentData.weather.daily[0].temp.max)}</div>
                                     <div className="verticalMarginAuto">Wind speed: {currentData.weather.current.wind_speed}</div>
                                     <div className="verticalMarginAuto">Humidity: {currentData.weather.current.humidity}</div>
-                                </div>
-                                <div className="leftContainer">
-                                    <div className="verticalMarginAuto">Humidity: {currentData.weather.current.pressure}</div>
+                                    <div className="verticalMarginAuto">Pressure: {currentData.weather.current.pressure}</div>
+                                    <div className="verticalMarginAuto">Visibility: {currentData.weather.current.visibility}</div>
                                 </div>
                             </div>
                         </div>

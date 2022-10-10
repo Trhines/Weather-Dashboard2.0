@@ -24,7 +24,6 @@
 .mainBody{
     display: inline-flex;
     width: 100%;
-    max-height: 320px;
 }
 
 .bodyContainer{
@@ -53,7 +52,7 @@
 .diagram{
     margin-right :50px;
     margin-top: 50px;
-    max-height: 320px;
+    max-height: 270px;
     min-width: 320px;
 }
 
@@ -126,14 +125,13 @@
 .forcast{
     background-color: var(--panelColor) !important;
     display: flex;
-    min-width: 320px;
 }
 
 .row{
     margin: 0px !important;
 }
 
-.forcast.altbg{
+.altbg{
     background-color: #f0f0f0 !important;
 }
 
