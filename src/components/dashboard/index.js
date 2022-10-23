@@ -106,7 +106,7 @@ const Dashboard = (props) => {
           <div className="mainContent bg">
             <SearchBar results={results} addResult={addResult} />
             <ul>
-              {results.map((result) => <Results key={result.name} name={result.name} country={result.sys.country} temp={result.main.temp} lat={result.coord.lat} lon={result.coord.lon} update={updateData} clear={clearResults} />)}
+              {results.map((result) => <Results key={result.name} name={result.name} all={result} country={result.sys.country} temp={result.main.temp} lat={result.coord.lat} lon={result.coord.lon} update={updateData} clear={clearResults} />)}
             </ul>
           </div>
         </Container>

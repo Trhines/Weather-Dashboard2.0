@@ -15,40 +15,40 @@ const SearchBar = (props) => {
     const [location, setLocation] = useState({ city: "", state: "", country: "", })
     const handleLocationChange = (event) => {
         const { name, value } = event.target
+        if(name !== "city"){
+            if(value.length > 2 ){
+                return
+            }
+        }
         setLocation({ ...location, [name]: value })
     }
 
     const submitSearch = async () => {
         const data = await callApi(location, key)
+        console.log("hit")
         console.log(data)
         props.addResult(data)
     }
 
     return (
         <div className="flex-center">
-            <Form>
+            <Form className="searchForm">
                 <Form.Group className="margin" controlId="formBasicEmail">
                     <Form.Label>City</Form.Label>
                     <Form.Control placeholder="City" name="city" value={location.city} onChange={handleLocationChange} />
                 </Form.Group>
                 <div className="inline-flex-center">
                     <Form.Group className="margin" controlId="formBasicPassword">
-                        <Form.Label>State</Form.Label>
-                        <Form.Select name="state" value={location.state} onChange={handleLocationChange}>
-                            <option></option>
-                            <option>CA</option>
-                        </Form.Select>
+                        <Form.Label>State Code</Form.Label>
+                        <Form.Control className="locationCode" placeholder="CA" name="state" value={location.state} onChange={handleLocationChange} />
                     </Form.Group>
 
                     <Form.Group className="margin">
-                        <Form.Label>Country</Form.Label>
-                        <Form.Select name="country" value={location.country} onChange={handleLocationChange}>
-                            <option></option>
-                            <option>US</option>
-                        </Form.Select>
+                        <Form.Label>Country Code</Form.Label>
+                        <Form.Control className="locationCode" placeholder="US" name="country" value={location.country} onChange={handleLocationChange} />
                     </Form.Group>
 
-                    <Button variant="primary margin margin-top realative-top" className="button" onClick={submitSearch}>
+                    <Button variant="btn margin margin-top realative-top" className="button searchBtn" onClick={submitSearch}>
                         Search
                     </Button>
                 </div>

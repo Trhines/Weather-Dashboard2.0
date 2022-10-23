@@ -1,18 +1,23 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
 import { DBcontext } from '../backgroundContainer'
 import Button from 'react-bootstrap/Button'
 import './index.css'
 import { getLocationData, saveLocationData } from '../../utils/indexdb'
+import { getTimeZone } from '../../utils/api/weatherApi'
+import { formatTemp } from '../../utils/unitConversions'
 
 const Results = (props) => {
 
-    const { db } = React.useContext(DBcontext)
+    const { db, key } = React.useContext(DBcontext)
+
+    const [tz, setTz] = useState("")
 
     const save = async () => {
         const data = await getLocationData(db, props.name, props.lat, props.lon, props.update)
-        if(!data){
+        if (!data) {
             let response = await saveLocationData(db, props.name, props.lat, props.lon)
-            if(response.success){
+            if (response.success) {
                 console.log(props.name)
                 props.update()
             }
@@ -20,12 +25,27 @@ const Results = (props) => {
         } else { props.clear() }
     }
 
+    const log = (a) => {
+        console.log(a)
+    }
+
+    useEffect(() => {
+        const findTz = async () => {
+            let timeZone = await getTimeZone(props.lat, props.lon, key)
+            setTz(`${timeZone}`)
+        }
+        findTz()
+    }, [])
+
     return (
-        <div className="result-row">
-            <p className="state">{props.name}</p>
-            <p>{props.country}</p>
-            <p>{props.temp}</p>
-            <Button className="button" onClick={save}>Add</Button>
+        <div className="result-container">
+            <div className="result-row" onClick={() => log(props)}>
+                <div className="result">{props.name}</div>
+                <div className="result">{props.country}</div>
+                <div className="result">{tz}</div>
+                <div className="result">{formatTemp(props.temp)}</div>
+                <Button variant="btn" className="button addBtn btn-btn" onClick={save}>Add</Button>
+            </div>
         </div>
     )
 }

@@ -1,21 +1,39 @@
+ul{
+    padding: 0px;
+}
+
+.result-container{
+    display: flex;
+    justify-content: center;
+}
+
 .result-row{
-    width:100%;
+    max-width: 500px;
+    width: 100%;
     display:inline-flex;
-    justify-content: space-between;
-}
-
-.state{
-    display:flex;
-    align-items: flex-end;
-}
-
-.code{
-    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
     align-items: center;
-    width:10%;
+    margin-bottom: 1rem;
+}
+
+.result{
+    padding: .5rem;
 }
 
 .margin-25{
     border-bottom: 1px solid black;
     padding: .25rem;
+}
+
+.addBtn{
+    border: .1rem solid black;
+}
+
+.addBtn:hover{
+    box-shadow: 0 0 0 0.25rem rgba(44, 44, 44, 0.25) !important;
+}
+
+.addBtn:focus{
+    box-shadow: 0 0 0 0.25rem rgba(44, 44, 44, 0.25) !important;
 }

@@ -3,15 +3,13 @@ import React from 'react'
 import { getWeatherData } from '../../utils/api/weatherApi'
 import { saveWeatherData, getSavedWeatherData, updateSavedWeatherData } from '../../utils/indexdb'
 import { DBcontext } from '../backgroundContainer'
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
-import { Trash } from 'react-bootstrap-icons'
 import './index.css'
 import getCoord from '../../utils/interpolation/index'
-
+import { getDirection, getPressure, formatTemp } from '../../utils/unitConversions/index'
 
 
 
@@ -24,10 +22,9 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
     const [show, setShow] = useState(false)
 
     const currentMilliseconds = Date.now()
-    const currentSeconds = Math.floor(currentMilliseconds / 1000)
 
     const getDate = (unixTimeStamp) => {
-        const dateObject = new Date(unixTimeStamp * 1000)
+        const dateObject = new Date(unixTimeStamp)
         const month = dateObject.toLocaleString("en-US", { month: "numeric" })
         const day = dateObject.toLocaleString("en-US", { day: "numeric" })
         const year = dateObject.toLocaleString("en-US", { year: "numeric" })
@@ -51,10 +48,6 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
 
     const getImageUrl = (icon) => {
         return `http://openweathermap.org/img/wn/${icon}.png`
-    }
-
-    const formatTemp = (temp) => {
-        return temp.toString().split('.')[0] + '\u00b0' + 'F'
     }
 
     const circle = (r) => {
@@ -97,7 +90,6 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
     let Weather = <div>loading</div>
 
     useEffect(() => {
-        console.log(currentData)
         const ifFirstTab = async (unix, timeZone, rise, secondRise) => {
             //let { h, s, l } = getColor(unix, timeZone, rise, secondRise)
         }
@@ -105,7 +97,7 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
         const updateData = async (existingData) => {
             const data = await getWeatherData(lat, lon, key)
             const completeData = { city, weather: data }
-            const timeStamp = currentSeconds
+            const timeStamp = currentMilliseconds
             if (!existingData) {
                 saveWeatherData(db, timeStamp, city, data)
             }
@@ -124,7 +116,7 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
             //if yes, checks timestamp
             if (savedData) {
                 //if less than 300 seconds (5min) passes data is considered current
-                if (currentSeconds - savedData.timeStamp < 300) {
+                if (currentMilliseconds - savedData.timeStamp < 1) {
 
                     setcurrentData(savedData)
                     ifFirstTab(currentMilliseconds, savedData.weather.timezone, savedData.weather.current.sunrise, savedData.weather.daily[1].sunrise)
@@ -210,28 +202,34 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
         Weather =
             <div>
                 <div className="mainContent bg">
-                    <h1>Today</h1>
                     <div className="dashHeader">
                         <div className="txtContainer">
-                            <div onClick={logState} className="headtxt">{currentData.city}</div>
-                            <div className="headtxt">{getDate(currentData.weather.current.dt)}</div>
-                            <div className="headtxt">{getTime(currentData.weather.timezone)}</div>
+                            <h2 onClick={logState} className="headtxt">{currentData.city}</h2>
+                            <h2 className="headtxt">{getDate(currentMilliseconds)}</h2>
+                            <h2 className="headtxt">{getTime(currentData.weather.timezone)}</h2>
                         </div>
-                        <div className="headtxt"><Trash onClick={() => setShow(true)} /></div>
+                        {/* <div className="headtxt"><Trash onClick={() => setShow(true)} /></div> */}
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16" onClick={() => setShow(true)}>
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                            </svg>
+                        </div>
                     </div>
                     <div>
                         <div className="mainBody">
                             <div className="rightBody">
-                                    {circle(130)}
+                                {circle(130)}
                             </div>
                             <div className="leftBody">
                                 <div className="leftContainer">
                                     <div className="verticalMarginAuto">Low: {formatTemp(currentData.weather.daily[0].temp.min)}</div>
                                     <div className="verticalMarginAuto">High: {formatTemp(currentData.weather.daily[0].temp.max)}</div>
-                                    <div className="verticalMarginAuto">Wind speed: {currentData.weather.current.wind_speed}</div>
-                                    <div className="verticalMarginAuto">Humidity: {currentData.weather.current.humidity}</div>
-                                    <div className="verticalMarginAuto">Pressure: {currentData.weather.current.pressure}</div>
-                                    <div className="verticalMarginAuto">Visibility: {currentData.weather.current.visibility}</div>
+                                    <div className="verticalMarginAuto">Wind Speed: {currentData.weather.current.wind_speed}</div>
+                                    <div className="verticalMarginAuto">Wind Direction: {getDirection(currentData.weather.current.wind_deg)}</div>
+                                    <div className="verticalMarginAuto">Humidity: {currentData.weather.current.humidity}%</div>
+                                    <div className="verticalMarginAuto">Pressure: {getPressure(currentData.weather.current.pressure)}</div>
+                                    <div className="verticalMarginAuto">Visibility: {currentData.weather.current.visibility}m</div>
                                 </div>
                             </div>
                         </div>

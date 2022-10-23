@@ -14,7 +14,7 @@ const lerp = (x, x1, x2, y1, y2) => {
 }
 
 //runs everything
-const getColor = (t, timeZone, rise, secondRise, set, r) => {
+const getCoord = (t, timeZone, rise, secondRise, set, r) => {
     let time = getLocalizedHours(t, timeZone)
     //let time = 6
     const sunrise = getLocalizedHours(rise*1000, timeZone)
@@ -28,30 +28,26 @@ const getColor = (t, timeZone, rise, secondRise, set, r) => {
     let y
     let symbol
     if( time >= sunrise && time < sunset){
-        console.log("day")
         x1 = sunrise
         x2 = sunset
         symbol = "sun"
     }
     if(time >= sunset){
-        console.log("after sunset")
         x1 = sunset
         x2 = second_rise + 24
         symbol = "moon"
     }
     if(time < sunrise){
-        console.log("before sunrise")
         //if value is lower than current sunrise asume previous days value
         x1 = sunset - 24
         x2 = sunrise
         symbol = "moon"
     }
     const rad = lerp(time, x1, x2, y1, y2) + Math.PI
-    console.log(rad)
     x = Math.cos(rad) * r
     y = Math.sin(rad) * r
     return {x, y, symbol}
 }
 
 
-export default getColor
+export default getCoord

@@ -14,10 +14,10 @@
     display: inline-flex;
     justify-content: left;
     flex-wrap: wrap;
+    padding-left: 12px;
 }
 
 .headtxt{
-    font-size: 1.25rem;
     padding-right: 1.25rem;
 }
 
@@ -196,3 +196,9 @@
         flex: auto;
     }
   }
+
+@media only screen and (max-width: 400px){
+    body{
+        overflow-x: hidden;
+    }
+}

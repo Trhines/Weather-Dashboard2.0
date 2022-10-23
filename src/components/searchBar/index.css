@@ -1,6 +1,15 @@
 .flex-center{
     display: flex;
     justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.searchForm{
+    max-width: 400px;
+}
+
+.locationCode{
+    width: 46px;
 }
 /* used for flexible rows */
 .inline-flex-center{
@@ -12,11 +21,11 @@
 }
 /* margin for search bar fields/buttons */
 .margin{
-    margin: .5rem;
+    margin: .4rem;
 }
 
 .margin-top{
-    margin-top:1rem;
+    margin-top:.9rem;
 }
 
 /*brings buttons inline with input fields*/
@@ -27,7 +36,15 @@
 
 .button{
     color: black;
-    border: none;
+    border: .1rem solid black;
     border-radius: 0px;
     background-color: var(--panelColor);
+}
+
+.searchBtn:hover{
+    box-shadow: 0 0 0 0.25rem rgba(44, 44, 44, 0.25) !important;
+}
+
+.searchBtn:focus{
+    box-shadow: 0 0 0 0.25rem rgba(44, 44, 44, 0.25) !important;
 }
