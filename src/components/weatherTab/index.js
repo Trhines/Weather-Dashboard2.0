@@ -225,10 +225,10 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
                                 <div className="leftContainer">
                                     <div className="verticalMarginAuto">Low: {formatTemp(currentData.weather.daily[0].temp.min)}</div>
                                     <div className="verticalMarginAuto">High: {formatTemp(currentData.weather.daily[0].temp.max)}</div>
-                                    <div className="verticalMarginAuto">Wind Speed: {currentData.weather.current.wind_speed}</div>
+                                    <div className="verticalMarginAuto">Wind Speed: {currentData.weather.current.wind_speed}mph</div>
                                     <div className="verticalMarginAuto">Wind Direction: {getDirection(currentData.weather.current.wind_deg)}</div>
                                     <div className="verticalMarginAuto">Humidity: {currentData.weather.current.humidity}%</div>
-                                    <div className="verticalMarginAuto">Pressure: {getPressure(currentData.weather.current.pressure)}</div>
+                                    <div className="verticalMarginAuto">Pressure: {getPressure(currentData.weather.current.pressure)}inHg</div>
                                     <div className="verticalMarginAuto">Visibility: {currentData.weather.current.visibility}m</div>
                                 </div>
                             </div>
