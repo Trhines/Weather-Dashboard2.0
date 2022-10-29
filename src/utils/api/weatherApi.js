@@ -1,10 +1,13 @@
+
 //returns object with city name and coord to be stored in savedLocations
 export const callApi = async (search, key) => {
     try {
         const { city, state, country } = search
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},CA,${country}&units=imperial&appid=${key}`)
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},${state},${country}&units=imperial&appid=${key}`)
+        if(response.status === 404){
+            return("404")
+        }
         const data = await response.json()
-        console.log(data)
         if (data) {
             return data
         }

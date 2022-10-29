@@ -18,17 +18,11 @@ const Results = (props) => {
         if (!data) {
             let response = await saveLocationData(db, props.name, props.lat, props.lon)
             if (response.success) {
-                console.log(props.name)
                 props.update()
             }
             props.clear()
         } else { props.clear() }
     }
-
-    const log = (a) => {
-        console.log(a)
-    }
-
     useEffect(() => {
         const findTz = async () => {
             let timeZone = await getTimeZone(props.lat, props.lon, key)
@@ -39,7 +33,7 @@ const Results = (props) => {
 
     return (
         <div className="result-container">
-            <div className="result-row" onClick={() => log(props)}>
+            <div className="result-row">
                 <div className="result">{props.name}</div>
                 <div className="result">{props.country}</div>
                 <div className="result">{tz}</div>

@@ -93,6 +93,10 @@
     left: 33px;
 }
 
+.descriptionIcon{
+    margin: .5rem;
+}
+
 .leftContainer{
     height: 100%;
 }
@@ -144,6 +148,7 @@
 .icon{
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .alertContainer{

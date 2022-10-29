@@ -10,6 +10,7 @@ import Button from 'react-bootstrap/Button';
 import './index.css'
 import getCoord from '../../utils/interpolation/index'
 import { getDirection, getPressure, formatTemp } from '../../utils/unitConversions/index'
+import getIcon from '../../icons'
 
 
 
@@ -20,15 +21,27 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
 
     const [currentData, setcurrentData] = useState(null)
     const [show, setShow] = useState(false)
+    const [clock, setClock] = useState("")
 
     const currentMilliseconds = Date.now()
+    const currentSeconds = currentMilliseconds/1000
 
     const getDate = (unixTimeStamp) => {
-        const dateObject = new Date(unixTimeStamp)
+        const dateObject = new Date(unixTimeStamp * 1000)
         const month = dateObject.toLocaleString("en-US", { month: "numeric" })
         const day = dateObject.toLocaleString("en-US", { day: "numeric" })
         const year = dateObject.toLocaleString("en-US", { year: "numeric" })
         return month + "/" + day + "/" + year
+    }
+
+    const runClock = (timeZone) => {
+        let date = new Date()
+        const time = date.toLocaleTimeString('en-us', { timeZone: timeZone })
+        const amPm = time.slice(-2)
+        const split = time.split(":")
+        const formatTime = split[0] + ":" + split[1] + " " + amPm
+        setClock(formatTime)
+        let t = setTimeout(()=>{runClock()}, 1000)
     }
 
     const getTime = (timeZone, timeStamp) => {
@@ -44,10 +57,6 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
         const splitTime = unSplitTime.split(":")
         const time = splitTime[0] + ":" + splitTime[1] + " " + amPm
         return time
-    }
-
-    const getImageUrl = (icon) => {
-        return `http://openweathermap.org/img/wn/${icon}.png`
     }
 
     const circle = (r) => {
@@ -80,8 +89,8 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
                     {formatTemp(currentData.weather.current.temp)}
                 </div>
                 <div className="description">
-                    <div >{currentData.weather.current.weather[0].description}</div>
-                    <img src={getImageUrl(currentData.weather.current.weather[0].icon)} ></img>
+                    <div>{currentData.weather.current.weather[0].description}</div>
+                    <div className="descriptionIcon">{getIcon(currentData.weather.current.weather[0].description, currentData.weather.current.weather[0].icon, "big")}</div>
                 </div>
             </div>
         )
@@ -97,7 +106,7 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
         const updateData = async (existingData) => {
             const data = await getWeatherData(lat, lon, key)
             const completeData = { city, weather: data }
-            const timeStamp = currentMilliseconds
+            const timeStamp = currentSeconds
             if (!existingData) {
                 saveWeatherData(db, timeStamp, city, data)
             }
@@ -134,8 +143,7 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
         }
 
         getCurrentData()
-
-
+        runClock()
     }, [db, key, lat, lon, city])
 
     if (currentData) {
@@ -158,7 +166,8 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
                         Temp {formatTemp(hour[i].temp)}
                     </Col>
                     <Col md={2} className="icon">
-                        <img src={getImageUrl(hour[i].weather[0].icon)}></img>
+                        {/* <img src={getImageUrl(hour[i].weather[0].icon)}></img> */}
+                        {getIcon(hour[i].weather[0].description, hour[i].weather[0].icon)}
                     </Col>
                     <Col className="day">
                         {hour[i].weather[0].description}
@@ -190,7 +199,7 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
                         High {formatTemp(day[i].temp.max)}
                     </Col>
                     <Col md={2} className="icon">
-                        <img src={getImageUrl(day[i].weather[0].icon)}></img>
+                        {getIcon(day[i].weather[0].description, day[i].weather[0].icon)}
                     </Col>
                     <Col className="day">
                         {day[i].weather[0].description}
@@ -205,8 +214,8 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
                     <div className="dashHeader">
                         <div className="txtContainer">
                             <h2 onClick={logState} className="headtxt">{currentData.city}</h2>
-                            <h2 className="headtxt">{getDate(currentMilliseconds)}</h2>
-                            <h2 className="headtxt">{getTime(currentData.weather.timezone)}</h2>
+                            <h2 className="headtxt">{getDate(currentSeconds)}</h2>
+                            <h2 className="headtxt">{clock}</h2>
                         </div>
                         {/* <div className="headtxt"><Trash onClick={() => setShow(true)} /></div> */}
                         <div>
@@ -225,11 +234,11 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
                                 <div className="leftContainer">
                                     <div className="verticalMarginAuto">Low: {formatTemp(currentData.weather.daily[0].temp.min)}</div>
                                     <div className="verticalMarginAuto">High: {formatTemp(currentData.weather.daily[0].temp.max)}</div>
-                                    <div className="verticalMarginAuto">Wind Speed: {currentData.weather.current.wind_speed}mph</div>
+                                    <div className="verticalMarginAuto">Wind Speed: {currentData.weather.current.wind_speed} mph</div>
                                     <div className="verticalMarginAuto">Wind Direction: {getDirection(currentData.weather.current.wind_deg)}</div>
                                     <div className="verticalMarginAuto">Humidity: {currentData.weather.current.humidity}%</div>
-                                    <div className="verticalMarginAuto">Pressure: {getPressure(currentData.weather.current.pressure)}inHg</div>
-                                    <div className="verticalMarginAuto">Visibility: {currentData.weather.current.visibility}m</div>
+                                    <div className="verticalMarginAuto">Pressure: {getPressure(currentData.weather.current.pressure)} inHg</div>
+                                    <div className="verticalMarginAuto">Visibility: {currentData.weather.current.visibility} m</div>
                                 </div>
                             </div>
                         </div>

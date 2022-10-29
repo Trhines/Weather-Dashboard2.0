@@ -25,8 +25,10 @@ const SearchBar = (props) => {
 
     const submitSearch = async () => {
         const data = await callApi(location, key)
-        console.log("hit")
-        console.log(data)
+        if(data === "404"){
+            alert("Location not found")
+            return
+        }
         props.addResult(data)
     }
 
