@@ -3,7 +3,17 @@
 export const callApi = async (search, key) => {
     try {
         const { city, state, country } = search
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},${state},${country}&units=imperial&appid=${key}`)
+        let startString = `https://api.openweathermap.org/data/2.5/weather?q=${city}`
+        let endString = `&units=imperial&appid=${key}`
+        let stateString;
+        let countryString;
+
+        state ? (stateString = `,${state.toUpperCase()}`) : (stateString = "")
+        country ? (countryString = `,${country.toUpperCase()}`) : (countryString = "")
+
+        let queryString = startString + stateString + countryString + endString
+        console.log(queryString)
+        const response = await fetch(queryString)
         if(response.status === 404){
             return("404")
         }
@@ -23,6 +33,8 @@ export const getWeatherData = async (lat, lon, key) => {
     } catch (err) { console.log(err) }
 }
 
+
+//only returns the timezone, used for search results
 export const getTimeZone = async (lat, lon, key) => {
     try {
         const data = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,hourly,daily,current&appid=${key}`)

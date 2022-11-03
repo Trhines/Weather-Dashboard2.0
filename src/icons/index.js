@@ -6,9 +6,6 @@ import './index.css'
 //uses icon code for haze due to to many keywords
 //does not soley rely on icon code due to different number of icons
 const getIcon = (str, code, scale) => {
-    if (code === "50d") {
-        return <Haze />
-    }
     const conditions = ["clear sky", "few clouds", "scattered clouds", "broken clouds", "overcast clouds", "thunderstorm", "drizzle", "rain", "snow"]
     let conditionKey;
     let icon;
@@ -118,6 +115,10 @@ const getIcon = (str, code, scale) => {
                 <path d="M4 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 2a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm2 2a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM13.405 4.027a5.001 5.001 0 0 0-9.499-1.004A3.5 3.5 0 1 0 3.5 10H13a3 3 0 0 0 .405-5.973z" />
             </svg>
         )
+    }
+
+    if (code === "50d") {
+        return <Haze />
     }
 
     for (let i = 0; i < conditions.length; i++) {

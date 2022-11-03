@@ -99,9 +99,6 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
     let Weather = <div>loading</div>
 
     useEffect(() => {
-        const ifFirstTab = async (unix, timeZone, rise, secondRise) => {
-            //let { h, s, l } = getColor(unix, timeZone, rise, secondRise)
-        }
         //pulls fresh data from api and updates db and state
         const updateData = async (existingData) => {
             const data = await getWeatherData(lat, lon, key)
@@ -121,25 +118,7 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
             //====================================================================================================================================
             //first checked to see if saved data exists for this location
             let savedData = await getSavedWeatherData(db, city)
-
-            //if yes, checks timestamp
-            if (savedData) {
-                //if less than 300 seconds (5min) passes data is considered current
-                if (currentMilliseconds - savedData.timeStamp < 1) {
-
-                    setcurrentData(savedData)
-                    ifFirstTab(currentMilliseconds, savedData.weather.timezone, savedData.weather.current.sunrise, savedData.weather.daily[1].sunrise)
-                    return
-                } else {
-                    //if more than 5 minutes passes data is updated
-
-                    let timeData = await updateData(savedData)
-                    ifFirstTab(currentMilliseconds, timeData.zone, timeData.rise, timeData.secondRise)
-                }
-            } else {
-                let timeData = await updateData(savedData)
-                ifFirstTab(currentMilliseconds, timeData.zone, timeData.rise, timeData.secondRise)
-            }
+            updateData(savedData)
         }
 
         getCurrentData()
