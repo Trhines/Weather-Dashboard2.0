@@ -142,7 +142,7 @@ const WeatherTab = ({ city, lat, lon, logState, deleteTab, index }) => {
                         {getTime(currentData.weather.timezone, hour[i].dt)}
                     </Col>
                     <Col className="day">
-                        Temp {formatTemp(hour[i].temp)}
+                        {formatTemp(hour[i].temp)}
                     </Col>
                     <Col md={2} className="icon">
                         {/* <img src={getImageUrl(hour[i].weather[0].icon)}></img> */}

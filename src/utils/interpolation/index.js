@@ -46,6 +46,7 @@ const getCoord = (t, timeZone, rise, secondRise, set, r) => {
     const rad = lerp(time, x1, x2, y1, y2) + Math.PI
     x = Math.cos(rad) * r
     y = Math.sin(rad) * r
+    x = (x*-1)
     return {x, y, symbol}
 }
 
